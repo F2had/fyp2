@@ -1,0 +1,264 @@
+<%- include('partials/head.ejs') %>
+
+<body id="page-top " class="d-flex flex-column min-vh-100">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3"><img src="/imgs/logo.png"  width="60" height="60" alt="">
+        </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/coordinator">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Logout -->
+      <div>
+        <li class="nav-item">
+          <a class="nav-link text-center fixed-bottom" data-toggle="modal" data-target="#logoutModal" href="#">
+            Logout
+          </a>
+        </li>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <i class="
+                                    fas fa-user"></i>
+                <%= user.name %></span>
+
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="/coordinator/profile">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+          <% if (success.length ) { %>
+            <hr>
+  
+            <% success.forEach(success=> { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= success %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <% }) %>
+            <hr>
+  
+            <% } %>
+  
+            <% if (error.length ) { %>
+            <hr>
+  
+            <% error.forEach(error=> { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <% }) %>
+            <hr>
+  
+            <% } %>
+
+
+
+          <div class="row">
+
+
+            <!-- Student Table  -->
+            <div class="col-xl-12 col-lg-7">
+
+              <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                  <button id="stuContBtn" class="btn btn-link" data-toggle="collapse" data-target="#collapseStudentsTable">
+                    <h6 class="m-0 font-weight-bold text-primary">Students</h6>
+                  </button>
+                  <i id="stuContTableArrowDown"
+                  class="las la-arrow-circle-down font-weight-bold la-2x text-primary d-none float-right"></i>
+                <i id="stuContTableArrowUp"
+                  class="las la-arrow-circle-up font-weight-bold la-2x text-primary float-right "></i>
+                </div>
+
+
+                <div id="collapseStudentsTable" class="collapse show">
+
+                  <div class="card-body">
+
+                    <div class="table-responsive">
+
+                      <table class="table table-bordered" id="studentControllerTable" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Matric</th>
+                            <th>Title</th>
+                            <th>FYP</th>
+                            <th>Supervisor</th>
+                            <th>Panel 1</th>
+                            <th>Panel 2</th>
+                            <th>Delete</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                          <% if(students.length) { %>
+
+                          <% students.forEach(student=> { %>
+                          <% if (student.approved) { %>
+                          <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.id %></td>
+                            <td><%= student.title %></td>
+                            <td class="text-center"><%= student.fyp %>
+                              <br>
+                              <a  href="/coordinator/fyp/update/<%= student.id %> ">
+                                <i class="far fa-edit "></i>
+                              </a>
+                            </td>
+                            <td class="text-center"><%= student['supervisor.name']%>
+                              <br>
+                              <a  href="/coordinator/supervisor/update/<%= student.id %> ">
+                                <i class="far fa-edit "></i>
+                              </a>
+                            </td>
+
+                            <td class="text-center"><% if (student['panel1.name']) { %>
+                              <%= student['panel1.name']%>
+                              <br>
+                              <a  href="/coordinator/panel1/update/<%= student.id %> ">
+                                <i class="far fa-edit "></i>
+                              </a>
+                            <% } else { %> N/A <% }  %></td>
+
+                            <td class="text-center"><% if (student['panel2.name']) { %>
+                              <%= student['panel2.name']%>
+                              <br>
+                              <a  href="/coordinator/panel2/update/<%= student.id %> ">
+                                <i class="far fa-edit "></i>
+                              </a>
+                            <% } else { %> N/A <% }  %></td>
+            
+                            <td class="text-center">
+                              <form action="/student/delete" method="post" class="d-inline m-0 p-0 deleteStudent">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="hidden" value="<%= student.id %>" name="id">
+                                <button type="submit" class="btn btn-danger fas-xs ">
+                                  <i class="far fa-trash-alt"></i>
+                                </button>
+                              </form>
+                            </td>
+                          </tr>
+                          <% } %>
+                          <% }); %>
+
+                          <% } %>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Student Table end  -->
+
+          </div>
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <%- include('partials/footer.ejs') %>
+
+
+      <!-- Sweet Alert -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+      <!-- Page level custom scripts -->
+      <script type="text/javascript" charset="utf8" src="/vendor/DataTables/datatables.js"></script>
+
+      <script src="/js/datatables.js"></script>
+      <script src="/js/studentController.js"></script>
+
+
+      <%- include('partials/bodyEnd.ejs') %>

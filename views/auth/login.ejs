@@ -1,0 +1,210 @@
+<%- include("../partials/head") %>
+
+  <body class="bg-gradient-primary d-flex flex-column min-vh-100">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <img src="/imgs/logo.png"  width="90" height="90" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home
+              <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <!-- Outer Row -->
+      <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+          <div class="card o-hidden border-0 shadow-lg my-5">
+
+            <div class="card-body p-0">
+              <!-- Nested Row within Card Body -->
+              <div class="row justify-content-center">
+
+
+
+                        
+
+
+                <div class="col-lg-6">
+                  <% if (error.length ) { %>
+                    <hr>
+
+                    <% error.forEach(error=> { %>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error %>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <% }) %>
+                        <hr>
+
+                        <% } %>
+                        <% if (success.length ) { %>
+                          <hr>
+      
+                          <% success.forEach(success=> { %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                              <%= success %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <% }) %>
+                              <hr>
+      
+                              <% } %>
+
+                  <% if (warning.length ) { %>
+                    <hr>
+
+                    <% warning.forEach(warning=> { %>
+                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <%= warning %>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <% }) %>
+                        <hr>
+
+                        <% } %>
+
+                  <div class="p-5">
+                    <div class="text-center">
+                      <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <select class="custom-select" id="userRole">
+                          <option value="Coordinator">Coordinator</option>
+                          <option value="Student">Student</option>
+                          <option value="Panel">Panel</option>
+                        </select>
+                      </div>
+                     </div>
+                    
+
+                    <!-- Coordinator form -->
+                    <form class="user" action="/login/coordinator" id="coordinatorForm" method="post">
+                      <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                      <div class="form-group">
+                        <input type="email" class="form-control form-control-user" name='email' 
+                          aria-describedby="emailHelp"  placeholder="Enter Email Address...">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-user" 
+                          placeholder="Password">
+                      </div>
+
+
+           
+                      <button class="btn btn-primary btn-user btn-block">
+
+                        Login
+
+                      </button>
+                    </form>
+                    <!-- Form end -->
+                    
+
+                    <!-- Student Form -->
+                    <form class="user" action="/login/student" id="studentForm" method="post">
+                      <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-user" name='email'
+                          aria-describedby="emailHelp" placeholder="Enter Email Address or Matric number">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-user" 
+                          placeholder="Password">
+                      </div>
+
+                      <button class="btn btn-primary btn-user btn-block">
+
+                        Login
+
+                      </button>
+                    </form>
+                         <!-- Form end -->
+
+
+                       <!-- Panel Form -->
+                    <form class="user" action="/login/panel" id="panelForm" method="post">
+                      <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                      <div class="form-group">
+                        <input type="email" class="form-control form-control-user" name='email' 
+                          aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-user" 
+                          placeholder="Password">
+                      </div>
+
+
+                   
+                      <button type="submit" class="btn btn-primary btn-user btn-block">
+
+                        Login
+
+                      </button>
+                    </form>
+                         <!-- Form end -->
+
+                    <hr>
+                    <div class="text-center">
+                      <a class="small" href="forgot-password">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                      <a class="small" href="register">Create an Account!</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- Footer -->
+    <footer class="border-top fixed-bottom bg-white mt-auto p-4">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy;
+            <%= new Date().getFullYear();%>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/script.js"></script>
+
+
+    <!-- Form handler-->
+    <script src="/js/loginHandler.js"></script>
+
+    <%- include("../partials/bodyEnd") %>

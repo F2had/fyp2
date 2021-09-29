@@ -1,0 +1,45 @@
+<%- include("../partials/head") %>
+
+  <body style="background-color: #F8F9FC ;">
+    <!-- Page Wrapper -->
+    <div id="wrapper" >
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" >
+        <!-- Main Content -->
+        <div id="content" >
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid mt-5 h-100">
+            <!-- 404 Error Text -->
+            <div class="text-center">
+              <div class="error mx-auto text-center" >Error!</div>
+            </div>
+            <div class="text-center">
+              <p class="lead mx-auto text-gray-600 ">Sorry for the inconvenience a server side error occurred! <br> Please try again!</p>
+            <a href="/">&larr; Home</a>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-top fixed-bottom bg-white mt-auto p-4">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy;
+            <%= new Date().getFullYear();%>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/script.js"></script>
+    <%- include("../partials/bodyEnd.ejs") %>

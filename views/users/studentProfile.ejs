@@ -1,0 +1,301 @@
+<%- include('../partials/head.ejs') %>
+
+<body id="page-top " class="d-flex flex-column min-vh-100">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3"><img src="/imgs/logo.png" width="60" height="60" alt="logo">
+        </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/<%= prevPage %>">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Main</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Logout -->
+      <div>
+        <li class="nav-item">
+          <a class="nav-link text-center fixed-bottom" data-toggle="modal" data-target="#logoutModal" href="#">
+            Logout
+          </a>
+        </li>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <i class="
+                                    fas fa-user"></i>
+                  <%= user.name %> </span>
+
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+          <!-- success start -->
+          <% if (success.length ) { %>
+          <hr>
+
+          <% success.forEach(success=> { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+
+          <!-- success end -->
+          <hr>
+
+          <% } %>
+          <!-- Error start -->
+          <% if (error.length ) { %>
+          <hr>
+
+          <% error.forEach(error=> { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+          <hr>
+
+          <% } %>
+          <!-- Error end -->
+
+
+          <!-- Button trigger modal -->
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn float-right mr-3 btn-primary-outline" data-toggle="modal"
+                data-target="#addLinkModal">
+                <i class="fas fa-plus fa-2x"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="addLinkModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Links</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <form action="/student/addLink" method="POST">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+                    <div class="form-group">
+                      <label for="driveLink" class="col-form-label">Drive link</label>
+                      <input type="text" class="form-control" name="driveLink" id="driveLink">
+                    </div>
+                    <div class="form-group">
+                      <label for="meetingLink" class="col-form-label">Meeting Link</label>
+                      <input class="form-control" name="meetingLink" id="meetingLink"></textarea>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- End modal -->
+
+
+
+          <div class="row ">
+            <div class="col text-center mt-3">
+              <h2 class="mt-3"><%= user.name %></h2>
+            </div>
+          </div>
+
+
+          <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <form action="/student/updateProfile" method="POST">
+              <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+              <table class="table  table-hover table-sm table-properties">
+                <tr v-show="user.uid">
+                  <th>Name</th>
+                  <td><input name="name" value="<%= user.name %>" type="text"></td>
+                </tr>
+                <tr v-show="user.uid">
+                  <th>Matric</th>
+                  <td><%= user.id %></td>
+                </tr>
+                <tr v-show="user.preferred_username">
+                  <th>Title</th>
+                  <td><%= user.title %></td>
+                </tr>
+                <tr v-show="user.preferred_username">
+                  <th>Email</th>
+                  <td><%= user.email %></td>
+                </tr>
+                <tr v-show="user.preferred_username">
+                  <th>Phone</th>
+                  <td><input name="phone" value="<%= user.phone %>" type="text"></td>
+                </tr>
+                <tr v-show="user.preferred_username">
+                  <td><button class="btn btn-outline-primary" type="submit">Update</button></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+          <br>
+          <hr>
+
+          <div class="row">
+            <div class="col text-center  mt-3">
+              <h2 class="mt-3">Change Email</h2>
+            </div>
+          </div>
+
+          <div class="w-100"></div>
+
+          <form action="/student/updateEmail" method="POST">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+            <div class="row justify-content-center">
+              <div class="col-4 text-center form-group  mt-3">
+                <input class="form-control" name="email" placeholder="Email..." type="text">
+              </div>
+
+              <div class="w-100"></div>
+
+              <div class="col-2 mt-3 text-center">
+                <button class="btn btn-outline-primary" type="submit">Update</button>
+              </div>
+            </div>
+          </form>
+          <hr>
+
+
+
+          <div class="row">
+            <div class="col text-center mt-3">
+              <h2 class="mt-3">Change Password</h2>
+            </div>
+          </div>
+
+          <div class="w-100"></div>
+
+          <form action="/student/updatePassword" method="POST">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+
+            <div class="row justify-content-center">
+              <div class="col-4 text-center form-group  mt-3">
+                <input class="form-control" name="passwordCurrent" placeholder="Current password..." type="password">
+              </div>
+              <div class="w-100"></div>
+              <div class="col-4 text-center form-group  mt-3">
+                <input class="form-control" name="password" placeholder="New Password..." type="password">
+              </div>
+              <div class="w-100"></div>
+              <div class="col-4 text-center form-group  mt-3">
+                <input class="form-control" name="password2" placeholder="Configrm Password..." type="password">
+              </div>
+
+              <div class="w-100"></div>
+
+              <div class="col-2 mt-3 text-center">
+                <button class="btn btn-outline-primary" type="submit">Update</button>
+              </div>
+            </div>
+          </form>
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <%- include('../partials/footer.ejs') %>
+
+      <!-- Page level plugins -->
+      <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+      <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+      <!-- Page level custom scripts -->
+      <script src="/js/datatables.js"></script>
+      <%- include('../partials/bodyEnd.ejs') %>

@@ -1,0 +1,465 @@
+<%- include('partials/head.ejs') %>
+
+<body id="page-top " class="d-flex flex-column min-vh-100">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3"><img src="/imgs/logo.png" width="60" height="60" alt="logo">
+        </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/coordinator">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Logout -->
+      <div>
+        <li class="nav-item">
+          <a class="nav-link text-center fixed-bottom" data-toggle="modal" data-target="#logoutModal" href="#">
+            Logout
+          </a>
+        </li>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <i class="
+                                    fas fa-user"></i>
+                  <%= user.name %></span>
+
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="/coordinator/profile">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <% if (success.length ) { %>
+          <hr>
+
+          <% success.forEach(success=> { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+          <hr>
+
+          <% } %>
+
+          <% if (error.length ) { %>
+          <hr>
+
+          <% error.forEach(error=> { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%- error %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+          <hr>
+
+          <% } %>
+
+          <div id="errors" class="d-none">
+
+          </div>
+
+           <div id="success" class="d-none">
+
+          </div>
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Schedule</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div>
+            <form id="scheduleForm" action="/schedule" autocomplete="off" method="POST">
+              <input id="csrfToken" type="hidden" value="<%= csrfToken %>" name="_csrf">
+              <div class="row">
+
+                <div class="col-6 form-group">
+                  <select id="student" name="student" class="custom-select">
+                    <% if (students.length===0) { %>
+                    <option selected="selected" disabled>Student</option>
+                    <option disabled>No students with panel assigned</option>
+                    <% } else { %>
+                    <option selected="selected" disabled>Student</option>
+                    <% students.forEach(student=> { %>
+                    <option value="<%= student.id %>">
+                      <%= student.name %>
+                      <%= student.id %>
+                    </option>
+                    <% }); } %>
+                  </select>
+                </div>
+                <div class="w-100"></div>
+
+                <div id="panel" class="d-none">
+                  <span>Panel</span>
+                  <ul>
+                    
+                  </ul>
+                </div>
+                <div class="w-100"></div>
+
+                <div class="col-6 flatpickr form-group">
+                  <input type="text" class="form-control" placeholder="Select Date.." id="slotDate" name="slotDate"
+                    data-input="data-input">
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-6 form-group ">
+                  <input name="startTime" class="form-control" type="text" id="timeStart" placeholder="From"
+                    required="required">
+                </div>
+                    
+                <div class="w-100"></div>
+
+                <div class="col-6 form-group">
+                  <input type="text" class="form-control" name="endTime" id="timeEnd" placeholder="To"
+                    required="required">
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-6 form-group">
+                  <select name="type" class="custom-select">
+                    <option value="type" selected disabled>Type</option>
+                    <option value="Monitoring">Monitoring Session</option>
+                    <option value="Viva">Viva Session</option>
+                  </select>
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-6">
+                  <select name="venue" class="custom-select">
+                    <% if (venues.length===0) { %>
+                    <option selected="selected">NA</option>
+                    <% } else { %>
+                    <option value="Venue" selected disabled>Venue</option>
+
+                    <% venues.forEach(venue=> { %>
+                    <option value="<%= venue %>">
+                      <%= venue %>
+                    </option>
+                    <% }); } %>
+                  </select>
+                </div>
+
+                <div class="w-100 pt-2"></div>
+               
+                <div class="col">
+                  <button class="btn btn-outline-primary" type="submit">Schedule</button>
+                </div>
+
+
+              </div>
+
+            </form>
+          </div>
+
+          <hr>
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Time Table</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+
+            <div class="col-6 col-lg-7">
+              <form action="/schedule/generate" id="timeTableForm" autocomplete="off" method="POST">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+                <div class="row">
+
+                  <div class="col-12 form-group flatpickr ">
+
+                    <input type="text" class="form-control" placeholder="Select Date(s).." id="tiametable" name="dates"
+                      data-input="data-input" />
+
+                  </div>
+
+                  <div class="col-4 form-group">
+
+                    <input name="startTimeTimeTable" <% if (body.startTime) { %> value=<%= body.startTime %> <% } %>
+                      class="form-control" type="text" id="timeStartTimeTable" placeholder="From" r />
+
+                  </div>
+
+                  <div class="col-4 form-group">
+                    <input type="text" <% if (body.endTime) { %> value=<%= body.endTime %> <% } %> class="form-control"
+                      name="endTimeTimeTable" id="timeEndTimeTable" placeholder="To" />
+                  </div>
+
+                  <div class="col-4 form-group">
+                    <input type="number" <% if (body.duration) { %> value=<%= body.duration %> <% } %>
+                      class="form-control" placeholder="Duration in minutes" id="duration" name="duration" />
+
+                  </div>
+
+                  <div class="w-100"></div>
+
+                  <div class="col-6 form-group">
+                    <select name="panels" id="panels" class="custom-select p-1 mb-2">
+                      <% if (panels.length===0) { %>
+                      <option selected="selected" disabled>Panel</option>
+                      <option disabled>N/A</option>
+                      <% } else { %>
+                      <option selected="selected" disabled>Panel</option>
+                      <% panels.forEach(panel=> { %>
+                      <option value="<%= panel.panel1.id %>&<%= panel.panel2.id %>">
+                        <%= panel.panel1.name %> &
+                        <%= panel.panel2.name %>
+                      </option>
+                      <% }); } %>
+                    </select>
+                  </div>
+
+
+              
+
+                  <div class="form-group  col-6">
+                    <select type="text" id="fyp" class="custom-select" name="fyp">
+                      <option selected disabled value="fyp">FYP</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="both">All</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group  col-12 ">
+
+                    <select type="text" id="students" class="custom-select  students" multiple="multiple"
+                      name="students">
+
+                    </select>
+
+                  </div>
+
+                  <div class="col-6 form-group ">
+                    <select name="venues" class="custom-select  venues" multiple>
+                      <% if (venues) { %>
+                      <% venues.forEach(venue=> { %>
+                      <option value="<%= venue %>"><%= venue %></option>
+                      <% }); } %>
+
+                    </select>
+                  </div>
+
+                  <div class=" col-6 form-group">
+                    <select name="type" class="custom-select">
+                      <option value="type" selected disabled>Type</option>
+                      <option <% if (body.type === 'Monitoring') { %> selected <% } %> value="Monitoring">Monitoring
+                        Session</option>
+                      <option <% if (body.type === 'Viva') { %> selected <% } %> value="Viva">Viva Session</option>
+                    </select>
+                  </div>
+
+                  <div class="col-3 custom-control custom-switch">
+                    <input type="checkbox" name="random" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Randomize slots</label>
+                  </div>
+                  <div class="w-100"></div>
+                  <div class="col-2 mt-2 ">
+                    <button class="btn btn-primary" type="submit">Generate timetable</button>
+                  </div>
+
+                </div>
+                <!-- End row time table options -->
+              </form>
+            </div>
+            <!-- End col -->
+
+
+            <div id="generatedTimeTable" class="col d-none">
+
+
+              <hr class="sidebar-divider my-3" />
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Generated time table</h1>
+              </div>
+              <!-- Generated time table start -->
+              <div class="row">
+
+                <div class="col-xl-12 col-lg-7">
+                  <div class="card-body">
+
+                    <div class="table-responsive">
+
+                      <table class="table table-striped" id="timeTable" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th>Student</th>
+                            <th>Matric</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Venue</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <% timetable.forEach(slot => { %>
+                          <tr>
+                            <td><%= slot.student.name %></td>
+                            <td><%= slot.student.id %></td>
+                            <td><%= slot.type %></td>
+                            <td><%= slot.dateFromFormatted  %> - <%= slot.dateToFormatted  %> </td>
+                            <td><%= slot.venue %></td>
+                          </tr>
+
+                          <% }) %>
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div>
+                  <form action="/schedule/generate/insert" method="POST">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </form>
+                </div>
+
+              </div>
+              <!-- Time table end row -->
+
+
+            </div>
+
+            <!-- End col -->
+
+            <!-- Start col -->
+            <div id="hasUpcomingSlot" class="col-xl-12 col-lg-7 d-none">
+
+
+
+              <hr class="sidebar-divider my-1" />
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Failed to schedule</h1>
+              </div>
+              <div class="row">
+                <div class="col">
+
+                  <p><strong>Follwing students already has a schuduled <%= body.type %></strong></p>
+
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div id="withUpcomingSlots">
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- End col -->
+
+          </div>
+
+          <!-- End of Main Content -->
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <%- include('partials/footer.ejs') %>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.full.min.js"
+        integrity="sha512-PZUUFofP00wI366Au6XSNyN4Zg8M8Kma4JKIG7ywt8FEY1+Ur0H+FAlH6o0fKoCrdmM4+ZzMyW30msp8Z2zDaA=="
+        crossorigin="anonymous"></script>
+
+      <script src="/js/select2.js"></script>
+
+      <!-- Flatpickr -->
+      <script src="/js/flatpickr.js"></script>
+
+
+      <script src="/js/costumScript.js"></script>
+
+      <!-- Flatpickr config -->
+      <script src="/js/flatpickrConfig.js"></script>
+
+      <%- include('partials/bodyEnd.ejs') %>

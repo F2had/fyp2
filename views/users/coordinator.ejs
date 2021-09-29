@@ -1,0 +1,614 @@
+<%- include('../partials/head.ejs') %>
+
+<body id="page-top " class="d-flex flex-column min-vh-100">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3">
+          <img src="/imgs/logo.png" width="60" height="60" alt="">
+        </div>
+      </a>
+
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Logout -->
+      <div>
+        <li class="nav-item">
+          <a class="nav-link text-center fixed-bottom" data-toggle="modal" data-target="#logoutModal" href="#">
+            Logout
+          </a>
+        </li>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <i class="fas fa-user"></i>
+                  <%= user.name %> </span>
+
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="/coordinator/profile">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+          <% if (success.length ) { %>
+          <hr />
+
+          <% success.forEach(success=> { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+          <hr />
+          <% } %>
+
+          <div id="successMessage" class="d-none">
+
+          </div>
+
+          <% if (error.length ) { %>
+          <hr />
+
+          <% error.forEach(error=> { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+          <hr />
+
+          <% } %>
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Cards -->
+
+            <% if (user.isAdmin) { %>
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-bottom-dark shadow h-80 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h6 mb-0 font-weight-bold text-gray-800">
+                        <a href="/admin">Admin</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-bottom-dark shadow h-80 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h6 mb-0 font-weight-bold text-gray-800">
+                        <a href="/upload">Upload</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-bottom-dark shadow h-80 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h6 mb-0 font-weight-bold text-gray-800">
+                        <a href="/schedule">Schedule</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-bottom-dark shadow h-80 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h6 mb-0 font-weight-bold text-gray-700">
+                        <a href="/assign-Panel">Assign Panel</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-bottom-dark shadow h-80 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h6 mb-0 font-weight-bold text-gray-700">
+                        <a href="/coordinator/student-controller">Student Controller</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+
+            <!-- Waiting approval -->
+            <div class="col-12">
+
+              <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                  <button class="btn btn-link" id="reqBtn" data-toggle="collapse" data-target="#approveTable">
+                    <h6 class="m-0 font-weight-bold text-primary">Requests</h6>
+                  </button>
+                  <i id="reqTableArrowDown"
+                    class="las la-arrow-circle-down font-weight-bold la-2x text-primary float-right"></i>
+                  <i id="reqTableArrowUp"
+                    class="las la-arrow-circle-up font-weight-bold la-2x text-primary float-right d-none"></i>
+                </div>
+
+
+                <div id="approveTable" class="collapse ">
+
+                  <div class="card-body">
+
+                    <div class="table-responsive" id="reqTable">
+
+                      <table class="table table-bordered" id="Table2" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Matric</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">FYP</th>
+                            <th scope="col">Supervisor</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                          <% if(students.length) { %>
+                          <% students.forEach(student=> { %>
+                          <% if (!student.approved) { %>
+                          <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.id %></td>
+                            <td><%= student.title %></td>
+                            <td><%= student.fyp %></td>
+                            <td><%= "Dr. " +student['supervisor.name']%></td>
+                            <td><%= student.phone %></td>
+                            <td><%= student.department %></td>
+
+                            <td style="text-align:center; width:100px;">
+
+                              <form action="/student/approve" method="post" class="approveStudent d-inline m-0 p-0">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="hidden" value="<%= student.id %>" name="id">
+                                <button type="submit" class="btn btn-success">
+                                  <i class="fas fa-check fa-xs"></i>
+                                </button>
+                              </form>
+
+                              <form action="/student/delete" method="post" class="d-inline m-0 p-0 deleteStudent">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="hidden" value="<%= student.id %>" name="id">
+                                <button type="submit" class="btn btn-danger fas-xs ">
+                                  <i class="far fa-trash-alt"></i>
+                                </button>
+                              </form>
+
+                            </td>
+
+                          </tr>
+                          <% } %>
+                          <% }); %>
+                          <% } %>
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Waiting approval -->
+
+
+
+            <!-- Student Table  -->
+            <div class="col-12">
+
+              <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                  <button id="stuBtn" class="btn btn-link" data-toggle="collapse" data-target="#collapseStudentsTable">
+                    <h6 class="m-0 font-weight-bold text-primary">Students</h6>
+                  </button>
+                  <i id="stuTableArrowDown"
+                    class="las la-arrow-circle-down font-weight-bold la-2x text-primary float-right"></i>
+                  <i id="stuTableArrowUp"
+                    class="las la-arrow-circle-up font-weight-bold la-2x text-primary float-right d-none"></i>
+                </div>
+
+
+                <div id="collapseStudentsTable" class="collapse  ">
+
+                  <div class="card-body">
+
+                    <div class="table-responsive">
+
+                      <table class="table table-bordered" id="stuTable" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Matric</th>
+                            <th>Title</th>
+                            <th>FYP</th>
+                            <th>Supervisor</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Panel 1</th>
+                            <th>Panel 2</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                          <% if(students.length) { %>
+
+                          <% students.forEach(student=> { %>
+                          <% if (student.approved) { %>
+                          <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.id %></td>
+                            <td><%= student.title %></td>
+                            <td><%= student.fyp %></td>
+                            <td><%=  student['supervisor.name']%></td>
+                            <td><%= student.phone %></td>
+                            <td><%= student.email %></td>
+
+                            <td><% if (student['panel1.name']) { %>
+                              <%=  student['panel1.name']%>
+                              <% }  else {%>
+                              Not assigned
+                              <% }  %>
+                            </td>
+
+                            <td><% if (student['panel2.name']) { %>
+                              <%=  student['panel2.name']%>
+                              <% }  else {%>
+                              Not assigned
+                              <% }  %>
+                            </td>
+                          </tr>
+                          <% } %>
+                          <% }); %>
+
+                          <% } %>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Student Table end  -->
+
+
+
+
+            <!-- lecturers Table  -->
+            <div class="col-12">
+
+              <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                  <button id="lecBtn" class="btn btn-link" data-toggle="collapse" data-target="#collapselecturersTable">
+                    <h6 class="m-0 font-weight-bold text-primary">Lecturers</h6>
+                  </button>
+                  <i id="lecTableArrowDown"
+                    class="las la-arrow-circle-down font-weight-bold la-2x text-primary float-right"></i>
+                  <i id="lecTableArrowUp"
+                    class="las la-arrow-circle-up font-weight-bold la-2x text-primary float-right d-none"></i>
+                </div>
+
+
+                <div id="collapselecturersTable" class="collapse ">
+
+                  <div class="card-body">
+
+                    <div class="table-responsive">
+
+                      <table class="table table-bordered" id="lecturersTable" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Supervising</th>
+                            <th scope="col">Paneling</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                          <% if(lecturers.length) { %>
+
+                          <% lecturers.forEach(lecturer=> { %>
+
+                          <tr>
+                            <td><%= lecturer.name %> </td>
+                            <td><%= lecturer.email %> </td>
+                            <td><%= lecturer.supervisingCount %> </td>
+                            <td><%= lecturer.panelingCount %> </td>
+                          </tr>
+
+                          <% }); %>
+
+                          <% } %>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- lecturers Table end  -->
+
+
+
+            <!-- Slots Table  -->
+            <div class="col-12">
+
+              <div class="card shadow mb-4">
+
+                <div class="card-header py-3">
+                  <button id="slotBtn" class="btn btn-link" data-toggle="collapse" data-target="#collapseSlotsTable">
+                    <h6 class="m-0 font-weight-bold text-primary">Slots</h6>
+                  </button>
+                  <i id="slotTableArrowDown"
+                    class="las la-arrow-circle-down font-weight-bold la-2x text-primary float-right"></i>
+                  <i id="slotTableArrowUp"
+                    class="las la-arrow-circle-up font-weight-bold la-2x text-primary float-right d-none"></i>
+                </div>
+
+
+                <div id="collapseSlotsTable" class="collapse ">
+
+                  <div class="card-body">
+
+                    <div class="table-responsive">
+
+                      <table class="table table-bordered" id="slotsTable" width="100%" cellspacing="0">
+
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Matric</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Supervisor</th>
+                            <th scope="col">FYP</th>
+                            <th scope="col">Panel1</th>
+                            <th scope="col">Panel2</th>
+                            <th scope="col">Type</th>
+                            <th scope="col" style="white-space: no-wrap; overflow: hidden;">Date</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Declined By</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                          <% if(slots.length) { %>
+
+                          <% slots.forEach(slot=> { %>
+
+                          <tr>
+                            <td style="white-space: nowrap;"><%= slot['student'].name %></td>
+                            <td style="white-space: nowrap;"><%= slot['student'].id %></td>
+                            <td  ><%= slot.student['title'] %></td>
+                            <td align="center"><%= "Dr. " +slot.student['supervisor'].name %></td>
+                            <td align="center"><%= slot.student['fyp'] %></td>
+                            <td style="white-space: nowrap;">Dr.<%= slot['panel1'].name %>
+                              <br>
+                              <% if (slot.panel1Approve) { %>
+                              <span class="text-success">Approved</span>
+                              <% } else if (!slot.isDeclined) { %>
+                              <span class="text-info">Waiting For approval</span>
+                              <% }  %>
+                            </td>
+                            <td style="white-space: nowrap;">Dr.<%= slot['panel2'].name %>
+                              <br>
+                              <% if (slot.panel2Approve) { %>
+                              <span class="text-success">Approved</span>
+                              <% } else if (!slot.isDeclined) { %>
+                              <span class="text-info">Waiting For approval</span>
+                              <% }  %>
+                            </td>
+                            <td style="white-space: nowrap;" align="center"><%= slot.type %></td>
+                            <td style="white-space: nowrap;"><%= slot.dateFrom %>-<%= slot.dateTo %></td>
+                            <td style="white-space: nowrap;" align="center"><%= slot.venue %></td>
+                            <% if (slot.isDeclined) { %>
+                            <td align="center"><span class="text-danger">Declined</span></td>
+                            <% } else if (slot.panel1Approve && slot.panel2Approve) { %>
+                            <td style="white-space: nowrap;"><span class="text-success">Approved</span></td>
+                            <% } else { %>
+                            <td style="white-space: nowrap;"><span class="text-info">Waiting For approval</span></td>
+                            <% }  %>
+
+                            <% if (slot.isDeclined) { %>
+                            <td style="white-space: nowrap;"><%= slot.declinedByName %></td>
+                            <% } else { %>
+                            <td>N/A</td>
+                            <% } %>
+                            <td style="white-space: nowrap;" class="d-flex justify-content-between align-items-center p-1">
+                              <form action="/schedule/deleteSlot" method="post" class=" deleteSlot">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="hidden" value="<%= slot.id %>" name="id">
+                                <button type="submit" class="btn btn-danger">
+                                  <i class="far fa-trash-alt"></i>
+                                </button>
+                              </form>
+                              <a href="/schedule/update/<%= slot.id %> "><button type="submit" class="btn btn-info"><i
+                                    class="far fa-edit"></i></button></a>
+                            </td>
+
+                          </tr>
+
+                          <% }); %>
+
+                          <% } %>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Slots Table end  -->
+
+          </div>
+
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <%- include('../partials/footer.ejs') %>
+
+
+
+      <!-- Sweet Alert -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+      <!-- Page level custom scripts -->
+      <script type="text/javascript" charset="utf8" src="/vendor/DataTables/datatables.js"></script>
+
+      <script src="js/datatables.js"></script>
+      <script src="js/studentController.js"></script>
+
+      <%- include('../partials/bodyEnd.ejs') %>

@@ -1,0 +1,261 @@
+<%- include('../partials/head.ejs') %>
+
+<body id="page-top " class="d-flex flex-column min-vh-100">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3"><img src="/imgs/logo.png" width="60" height="60" alt="logo">
+        </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Logout -->
+      <div>
+        <li class="nav-item">
+          <a class="nav-link text-center fixed-bottom" data-toggle="modal" data-target="#logoutModal" href="#">
+            Logout
+          </a>
+        </li>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <i class="
+                                    fas fa-user"></i>
+                  <%- student.name %>
+                </span>
+
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="/student/profile/">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+
+
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Details</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col">
+              <!-- Table -->
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="studentDetails" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th>Supervisor</th>
+                          <th>Panel 1</th>
+                          <th>Panel 2</th>
+                          <th>FYP</th>
+                          <th>Meeting Link</th>
+                          <th>Drive Link</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><%= student.name %> </td>
+                          <td><%= student.title %></td>
+                          <td><%= user['supervisor.name'] %> </td>
+                          <% if (user['panel1.name'] ) { %>
+                          <td> <%= user['panel1.name'] %> </td>
+                          <% } else { %>
+                          <td> N/A </td>
+                          <% } %>
+
+                          <% if (user['panel2.name'] ) { %>
+                          <td> <%= user['panel2.name'] %> </td>
+                          <% } else { %>
+                          <td> N/A </td>
+                          <% } %>
+                          <td><%= student.fyp %> </td>
+                          <% if (student.meetingLink) { %>
+                          <td><a href="<%= student.meetingLink %>" target="_blank">Meeting</a></td>
+                          <% } else { %>
+                          <td>N/A</td>
+                          <% } %>
+
+                          <% if (student.driveLink) { %>
+                          <td><a href="<%= student.driveLink%>" target="_blank">Drive</a></td>
+                          <% } else { %>
+                          <td>N/A</td>
+                          <% } %>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- Table end -->
+            </div>
+          </div>
+
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Meetings</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col">
+              <!-- Table -->
+
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="studentMeetings" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Date</th>
+                          <th>Venue</th>
+                          <th>Add To Calendar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% slots.forEach(slot => { %>
+                        <% if (slot.panel1Approve && slot.panel2Approve  ) { %>
+                        <tr>
+                          <td><%= slot.type %> </td>
+                          <td><%= slot.dateFrom  %> - <%= slot.dateTo  %> </td>
+                          <td><%= slot.venue %> </td>
+                          <td align="center"><a href="<%= slot.link %>" target="_blank"><i
+                                class="fab fa-google fa-3x"></i></a></td>
+                        </tr>
+                        <% } %>
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Table end -->
+            </div>
+          </div>
+
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Feedbacks</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col">
+              <!-- Table -->
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="feedbacks" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Panel</th>
+                          <th>FYP</th>
+                          <th>View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <% feedbacks.forEach(feedback => { %>
+                          <td><%= feedback.panel.name %> </td>
+                          <td align="center"><%= student.fyp %></td>
+                          <td><a href="/feedback/feedback<%= feedback.FYP%>/<%= feedback.id  %>">View</a> </td>
+                          <% }) %>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- Table end -->
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <%- include('../partials/footer.ejs') %>
+
+      <!-- Page level custom scripts -->
+      <script type="text/javascript" charset="utf8" src="/vendor/DataTables/datatables.js"></script>
+      <!-- Page level custom scripts -->
+      <script src="js/datatables.js"></script>
+
+
+
+      <%- include('../partials/bodyEnd.ejs') %>

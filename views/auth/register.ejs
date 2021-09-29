@@ -1,0 +1,309 @@
+<%- include('../partials/head.ejs') %>
+
+<body class="bg-gradient-primary">
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="/imgs/logo.png" width="90" height="90" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home
+            <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="login">Login</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row justify-content-center">
+          <!-- <div class="col-lg-5 d-none d-lg-block bg-register-image"></div> -->
+          <div class="col-lg-7">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+              </div>
+
+
+              <% if (success.length ) { %>
+              <hr>
+
+              <% success.forEach(success=> { %>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= success %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% }) %>
+              <hr>
+
+              <% } %>
+
+              <% if (error.length ) { %>
+              <hr>
+
+              <% error.forEach(error=> { %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% }) %>
+              <hr>
+
+              <% } %>
+
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="userRole">Register</label>
+                  </div>
+                  <select class="custom-select" id="userRole">
+                    <option value="Student">Student</option>
+                    <option value="Coordinator">Coordinator</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <!-- Coordinator form -->
+              <form class="user" id="coordinatorForm" action="/register/coordinator" method="POST">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                <input type="hidden" name="role" value="Coordinator">
+
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+
+                    <input type="text" name="name" id="coordinatorName"
+                      <% if (body.name && body.role === 'Coordinator') { %> value="<%= body.name %>" <% } %>
+                      class="form-control form-control-user" placeholder="Name">
+                    <div class="col-sm-12 d-none" id="coordinatorNameError">
+                      <small id="" class="text-danger ">
+                        Please enter a valid name
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select type="text" id="coordDepartment" class="custom-select" name="department">
+                      <option selected="selected" disabled hidden value="">Department</option>
+                      <% departments.forEach(dep=> { %>
+                      <option value="<%= dep %>">
+                        <%= dep %>
+                      </option>
+                      <% }); %>
+                    </select>
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+                  <input type="email" name="email" id="coordEmail" <% if (body.email && body.role === 'Coordinator') { %>
+                    value="<%= body.email %>" <% } %> class="form-control form-control-user"
+                    placeholder="Email Address">
+                    <div class="col-sm-12 d-none" id="coordEmailError">
+                      <small id="" class="text-danger ">
+                        Please enter a valid email
+                      </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="password" id="coordinatorPassword" name="password" class="form-control form-control-user"
+                      placeholder="Password">
+                      <div class="col-sm-12 d-none" id="coordinatorPasswordError">
+                        <small id="" class="text-danger ">
+                        Please enter a valid password
+                        </small>
+                      </div>
+
+                  </div>
+
+                  <div class="col-sm-6">
+                    <input type="password" id="coordinatorPassword2" name="password2" class="form-control form-control-user"
+                      placeholder="Repeat Password">
+                      <div class="col-sm-12 d-none" id="coordinatorPassword2Error">
+                        <small id="" class="text-danger ">
+                          Passwords must match
+                        </small>
+                      </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <small id="passwordHelp" class="form-text text-muted">Passowrd min length 8, Uppercase, Lowercase,
+                      Number and one special char. @Example1</small>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">Register
+                  Account</button>
+
+              </form>
+              <!-- Coordinator form end -->
+
+              <!-- Student form -->
+              <form class="user" id="studentForm" method="POST" action="/register/student">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                <input type="hidden" name="role" value="Student">
+
+                <div class="form-group row">
+
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" placeholder="Matric"
+                      <% if (body.id && body.role === 'Student') { %> value="<%= body.id %>" <% } %> id="studentID"
+                      name="id" id="matric">
+                    <div class="col-sm-12 d-none" id="matricError">
+                      <small id="" class="text-danger ">
+                        Please enter a valid matric
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <input type="text" <% if (body.name && body.role === 'Student') { %> value="<%= body.name %>"
+                      <% } %> class="form-control form-control-user" placeholder="Full Name" name="name"
+                      id='studentName'>
+                    <div class="col-sm-12 d-none" id="studentNameError">
+                      <small id="" class="text-danger ">
+                        Please enter a valid name
+                      </small>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user"
+                    <% if (body.title && body.role === 'Student') { %> value="<%= body.title %>" <% } %>
+                    placeholder="Title" name="title">
+                </div>
+
+                <div class=" form-group">
+                  <input type="text" class="form-control form-control-user" id="studentPhone" placeholder="Phone"
+                    <% if (body.phone && body.role === 'Student') { %> value="<%= body.phone %>" <% } %> name="phone">
+                  <div class="col-sm-12 d-none" id="studentPhoneError">
+                    <small id="" class="text-danger ">
+                      Please enter a valid number
+                    </small>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <select type="text" id="department" class="custom-select" name="department">
+                    <option selected="selected" hidden disabled>Department</option>
+                    <% departments.forEach(dep=> { %>
+                    <option value="<%= dep %>">
+                      <%= dep %>
+                    </option>
+                    <% }); %>
+                  </select>
+                  <div class="col-sm-12 d-none" id="departmentError">
+                    <small id="" class="text-danger ">
+                      Please choose a department
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <select type="text" id="supervisor" class="custom-select " name="supervisor">
+                    <option value="Supervisor" selected hidden disabled>Supervisor</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <select type="text" id="fyp" class="custom-select " name="fyp">
+                    <option value="fyp" selected hidden disabled>FYP</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-user" id="studentEmail"
+                    placeholder="Email Address" <% if (body.email && body.role === 'Student') { %>
+                    value="<%= body.email %>" <% } %> name="email">
+                  <div class="col-sm-12 d-none" id="studentEmailError">
+                    <small id="" class="text-danger ">
+                      Please enter a valid email
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="password" class="form-control form-control-user" id="studentPassword"
+                      placeholder="Password" name="password">
+                    <div class="col-sm-12 d-none" id="studentPasswordError">
+                      <small id="" class="text-danger ">
+                        Please enter a valid password
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="password" class="form-control form-control-user" id="studentPassword2"
+                      placeholder="Repeat Password" name="password2">
+                    <div class="col-sm-12 d-none" id="studentPasswordError2">
+                      <small id="" class="text-danger ">
+                        Passwords must match
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <small id="passwordHelp" class="form-text text-muted">
+                      <ul>
+                        <li>Min 8, Max 30, Uppercase, Lowercase, Number, Special Character, Example@1</li>
+                      </ul>
+                    </small>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-user btn-block">Register
+                  Account</button>
+
+              </form>
+              <!-- Student form end -->
+              <hr>
+              <div class="text-center">
+                <a class="small" href="/forgot-password">Forgot Password?</a>
+              </div>
+              <div class="text-center">
+                <a class="small" href="/login">Already have an account? Login!</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class=" mt-auto p-5 bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy;
+          <%= new Date().getFullYear();%>
+        </span>
+      </div>
+    </div>
+  </footer>
+  <!-- Bootstrap core JavaScript-->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/js/script.js"></script>
+  <script src="/js/registerHandler.js"></script>
+
+  <%- include("../partials/bodyEnd.ejs") %>
