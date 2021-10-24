@@ -22,10 +22,10 @@ This solution aims to help coordinators save time during the scheduling process 
 ## Credentials 
 Coordinator 
  - Email : `se@f2had.me`
- - Passwor: `@Example1`
+ - Password: `@Example1`
 <br> 
 
-Panel and Student any email from the tables after log in with Coordinator accout with the same password
+Panel and Student any email from the tables after log in with Coordinator account  with the same password
 
 ## 
 
